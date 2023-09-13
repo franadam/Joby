@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Landing, Dashboard, Error, Register } from '../pages';
 
@@ -12,6 +14,7 @@ const App = (): JSX.Element => {
         <Route path="register" element={<Register />} />
         <Route path="*" element={<Error />} />
       </Routes>
+      <ToastContainer position="top-center" />
     </BrowserRouter>
   );
 };
