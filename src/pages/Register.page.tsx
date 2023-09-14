@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { FormRow, Logo } from '../components';
 import { User } from '../interfaces';
 import { loginUser, registerUser } from '../redux/user/user.slice';
+import { useNavigate } from 'react-router-dom';
 
 const initialState: User = {
   name: '',
@@ -18,6 +19,13 @@ const Register = (): JSX.Element => {
   const [info, setInfo] = useState(initialState);
   const { user, isLoading } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
