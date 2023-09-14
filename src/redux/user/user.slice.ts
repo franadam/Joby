@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-import { Credentials, User } from '../../interfaces';
+import { Credentials, User, UserAPI } from '../../interfaces';
 import { userServices } from '../../services';
 import { isUser } from '../../utils/typeGards';
 import {
@@ -9,10 +9,11 @@ import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
 } from '../../utils/localStorage';
+import { RootState } from '../store';
 
 interface UserState {
   isLoading: boolean;
-  user: User | undefined;
+  user: UserAPI | undefined;
 }
 
 const initialState: UserState = {
@@ -48,13 +49,39 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  'user/update',
+  async (user: Partial<UserAPI>, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState;
+      const token = state.user.user?.token;
+      if (!token) throw new Error('token missing');
+      const data = await userServices.updateProfile(user, token);
+      if (!isUser(data)) throw data;
+      return data;
+    } catch (error: any) {
+      const { data, status } = error;
+      if (status === 401) {
+        thunkAPI.dispatch(logoutUser());
+        return thunkAPI.rejectWithValue('Unauthorized! Login out');
+      }
+      return thunkAPI.rejectWithValue(data.msg);
+    }
+  }
+);
+
+type LogoutPayload = string | undefined;
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logoutUser: (state) => {
+    logoutUser: (state, { payload }: PayloadAction<LogoutPayload>) => {
       state.user = undefined;
       removeUserFromLocalStorage();
+      if (payload) {
+        toast.success(payload);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -86,6 +113,22 @@ const userSlice = createSlice({
         toast.success(`Welcome back ${user.name}`);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
+        const error = payload as string;
+        state.isLoading = false;
+        console.log('error reducer', error);
+        toast.error(error);
+      })
+      .addCase(updateProfile.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProfile.fulfilled, (state, { payload }) => {
+        const user = payload;
+        state.isLoading = false;
+        state.user = user;
+        addUserToLocalStorage(user);
+        toast.success(`profile saved`);
+      })
+      .addCase(updateProfile.rejected, (state, { payload }) => {
         const error = payload as string;
         state.isLoading = false;
         console.log('error reducer', error);

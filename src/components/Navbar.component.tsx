@@ -9,7 +9,7 @@ import { logoutUser } from '../redux/user/user.slice';
 
 const Navbar = (): JSX.Element => {
   const [isShowLogout, setIsShowLogout] = useState(false);
-  const { user } = useAppSelector((store) => store.user);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const toggle = () => {
@@ -21,9 +21,10 @@ const Navbar = (): JSX.Element => {
   };
 
   const logout = () => {
-    dispatch(logoutUser());
+    dispatch(logoutUser('Logging out...'));
   };
 
+  console.log('user?.name', user?.name);
   return (
     <Wrapper>
       <div className="nav-center">
@@ -37,7 +38,7 @@ const Navbar = (): JSX.Element => {
 
         <div className="btn-container">
           <button type="button" className="btn" onClick={toggleLogOut}>
-            <FaUserCircle>{user?.name}</FaUserCircle>
+            <FaUserCircle /> {user?.name}
           </button>
           <div className={isShowLogout ? 'dropdown show-dropdown' : 'dropdown'}>
             <button type="button" className="dropdown-btn" onClick={logout}>
