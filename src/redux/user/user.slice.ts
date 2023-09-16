@@ -99,7 +99,7 @@ const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, { payload }) => {
         const error = payload as string;
         state.isLoading = false;
-        console.log('error reducer', error);
+        console.log('error reducer registerUser', error);
         toast.error(error);
       })
       .addCase(loginUser.pending, (state, action) => {
@@ -115,7 +115,7 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         const error = payload as string;
         state.isLoading = false;
-        console.log('error reducer', error);
+        console.log('error reducer loginUser', error);
         toast.error(error);
       })
       .addCase(updateProfile.pending, (state, action) => {
@@ -131,7 +131,7 @@ const userSlice = createSlice({
       .addCase(updateProfile.rejected, (state, { payload }) => {
         const error = payload as string;
         state.isLoading = false;
-        console.log('error reducer', error);
+        console.log('error reducer updateProfile', error);
         toast.error(error);
       });
   },

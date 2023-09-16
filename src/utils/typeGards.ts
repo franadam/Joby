@@ -1,4 +1,4 @@
-import { UserAPI } from '../interfaces';
+import { UserAPI, Job } from '../interfaces';
 
 const isUser = (data: any): data is UserAPI => {
   return (
@@ -6,4 +6,12 @@ const isUser = (data: any): data is UserAPI => {
   );
 };
 
-export { isUser };
+const isJob = (data: any): data is Job => {
+  return (
+    data &&
+    typeof data.position === 'string' &&
+    typeof data.company === 'string'
+  );
+};
+
+export { isUser, isJob };

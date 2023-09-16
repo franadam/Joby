@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface Props {
+export interface FormRowProps {
   type: string;
   name: string;
   value: string;
@@ -8,13 +8,20 @@ interface Props {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormRow = ({ type, name, value, labelText, handleChange }: Props) => {
+const FormRow = ({
+  type,
+  name,
+  value,
+  labelText,
+  handleChange,
+}: FormRowProps) => {
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">
         {labelText}
       </label>
       <input
+        id={name}
         type={type}
         name={name}
         value={value}
