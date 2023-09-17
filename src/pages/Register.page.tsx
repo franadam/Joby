@@ -17,6 +17,7 @@ const initialState: User = {
 
 const Register = (): JSX.Element => {
   const [info, setInfo] = useState(initialState);
+  const [isDemo, setIsDemo] = useState(false);
   const { user, isLoading } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -32,10 +33,20 @@ const Register = (): JSX.Element => {
     setInfo({ ...info, [name]: value });
   };
 
+  const setDemoApp = () => {
+    setIsDemo(true);
+    setInfo({
+      ...info,
+      name: 'demo',
+      email: 'testUser@test.com',
+      password: 'secret',
+    });
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password, isMember } = info;
-    if (!email || !password || (!isMember && !name)) {
+    if (!isDemo && (!email || !password || (!isMember && !name))) {
       toast.error('Please fill out all fields');
       return;
     }
@@ -43,6 +54,7 @@ const Register = (): JSX.Element => {
       dispatch(loginUser({ email, password }));
       return;
     }
+
     dispatch(registerUser({ name, email, password }));
   };
 
@@ -55,7 +67,6 @@ const Register = (): JSX.Element => {
       <form onSubmit={onSubmit} className="form">
         <Logo />
         <h3>{info.isMember ? 'Login' : 'Register'}</h3>
-
         {!info.isMember && (
           <FormRow
             type="text"
@@ -65,7 +76,6 @@ const Register = (): JSX.Element => {
             handleChange={handleChange}
           />
         )}
-
         <FormRow
           type="email"
           name="email"
@@ -73,7 +83,6 @@ const Register = (): JSX.Element => {
           value={info.email}
           handleChange={handleChange}
         />
-
         <FormRow
           type="password"
           name="password"
@@ -81,9 +90,16 @@ const Register = (): JSX.Element => {
           value={info.password}
           handleChange={handleChange}
         />
-
         <button type="submit" className="btn btn-block" disabled={isLoading}>
           {isLoading ? 'Loading...' : 'submit'}
+        </button>
+        <button
+          type="submit"
+          className="btn btn-block btn-hipster"
+          disabled={isLoading}
+          onClick={setDemoApp}
+        >
+          {isLoading ? 'Loading...' : 'demo'}
         </button>
         <p>
           {info.isMember ? 'Not a member yet?' : 'Already a member ?'}

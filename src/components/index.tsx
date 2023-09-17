@@ -6,6 +6,10 @@ import Navbar from './Navbar.component';
 import Sidebar from './Sidebar.component';
 import BigSidebar from './BigSidebar.component';
 import NavLinks from './NavLinks.component';
+import SearchContainer from './SearchContainer.component';
+import JobsContainer from './JobsContainer.component';
+import Job from './Job.component';
+import Loading from './Loading.component';
 
 export {
   Logo,
@@ -17,6 +21,10 @@ export {
   Sidebar,
   BigSidebar,
   NavLinks,
+  SearchContainer,
+  JobsContainer,
+  Job,
+  Loading,
 };
 
 export type { FormRowProps, FormRowSelectProps };

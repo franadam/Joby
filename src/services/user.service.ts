@@ -26,11 +26,7 @@ const updateProfile = async (
   token: string
 ): Promise<UserAPI> => {
   try {
-    const response = await customFetch.patch('/auth/updateUser', user, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await customFetch.patch('/auth/updateUser', user);
     return response.data.user;
   } catch (error: any) {
     return error.response.data.msg;

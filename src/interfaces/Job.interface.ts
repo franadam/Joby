@@ -16,4 +16,15 @@ interface JobOptions {
   editJobId: string;
 }
 
-export type { JobType, JobStatus, Job, JobOptions };
+interface JobAPI extends Job {
+  createdAt: string;
+  _id: string;
+}
+
+interface JobPagination {
+  jobs: JobAPI[];
+  totalJobs: number;
+  numOfPages: number;
+}
+
+export type { JobType, JobStatus, Job, JobOptions, JobPagination, JobAPI };

@@ -1,4 +1,4 @@
-import { UserAPI, Job } from '../interfaces';
+import { UserAPI, Job, JobAPI, JobPagination } from '../interfaces';
 
 const isUser = (data: any): data is UserAPI => {
   return (
@@ -14,4 +14,20 @@ const isJob = (data: any): data is Job => {
   );
 };
 
-export { isUser, isJob };
+const isJobArray = (data: any): data is JobPagination => {
+  if (Array.isArray(data) && isJob(data[0])) {
+    return true;
+  }
+  return Array.isArray(data);
+};
+
+const isJobArrayPaginate = (data: any): data is JobPagination => {
+  return (
+    data &&
+    isJobArray(data.jobs) &&
+    typeof data.numOfPages === 'number' &&
+    typeof data.totalJobs === 'number'
+  );
+};
+
+export { isUser, isJob, isJobArray, isJobArrayPaginate };

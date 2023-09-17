@@ -8,6 +8,7 @@ import {
   clearValues,
   createJob,
   handleChange,
+  updateJob,
 } from '../../redux/job/job.slice';
 import { Form, RowType } from '../../components';
 
@@ -28,7 +29,7 @@ const AddJob = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (user) {
+    if (user && !isEditing) {
       dispatch(handleChange({ name: 'jobLocation', value: user.location }));
     }
   }, []);
@@ -39,7 +40,24 @@ const AddJob = (): JSX.Element => {
       toast.error('Please fill out all fields');
       return;
     }
-    dispatch(createJob({ position, jobType, company, jobLocation, status }));
+    console.log('isEditing', isEditing);
+    if (isEditing) {
+      const updates = {
+        position,
+        jobType,
+        company,
+        jobLocation,
+        status,
+      };
+      dispatch(
+        updateJob({
+          editJobId,
+          updates,
+        })
+      );
+    }
+    if (!isEditing)
+      dispatch(createJob({ position, jobType, company, jobLocation, status }));
   };
 
   const handleJobChanges = (
@@ -98,7 +116,7 @@ const AddJob = (): JSX.Element => {
   return (
     <Wrapper>
       <form className="form" onSubmit={(e) => handleSubmit(e)}>
-        <h3>Add job</h3>
+        <h3>{isEditing ? 'Edit job' : 'Add job'}</h3>
 
         <div className="form-center">
           <Form type={RowType.INPUT} items={inputItems} />
