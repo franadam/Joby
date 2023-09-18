@@ -120,7 +120,6 @@ const AddJob = (): JSX.Element => {
 
         <div className="form-center">
           <Form type={RowType.INPUT} items={textItems} />
-          ../assets/
           <div className="btn-container">
             <button
               type="button"
