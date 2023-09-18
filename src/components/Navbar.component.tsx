@@ -24,7 +24,6 @@ const Navbar = (): JSX.Element => {
     dispatch(logoutUser('Logging out...'));
   };
 
-  console.log('user?.name', user?.name);
   return (
     <Wrapper>
       <div className="nav-center">

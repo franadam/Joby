@@ -40,7 +40,7 @@ const AddJob = (): JSX.Element => {
       toast.error('Please fill out all fields');
       return;
     }
-    console.log('isEditing', isEditing);
+    //console.log('isEditing', isEditing);
     if (isEditing) {
       const updates = {
         position,
@@ -72,7 +72,7 @@ const AddJob = (): JSX.Element => {
     dispatch(clearValues());
   };
 
-  const inputItems = [
+  const textItems = [
     {
       type: 'text',
       name: 'position',
@@ -119,9 +119,8 @@ const AddJob = (): JSX.Element => {
         <h3>{isEditing ? 'Edit job' : 'Add job'}</h3>
 
         <div className="form-center">
-          <Form type={RowType.INPUT} items={inputItems} />
-          <Form type={RowType.SELECT} items={selectItems} />
-
+          <Form type={RowType.INPUT} items={textItems} />
+          ../assets/
           <div className="btn-container">
             <button
               type="button"

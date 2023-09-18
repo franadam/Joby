@@ -10,6 +10,7 @@ import {
   removeUserFromLocalStorage,
 } from '../../utils/localStorage';
 import { RootState } from '../store';
+import { checkForUnauthorizedResponse } from '../../utils/axios';
 
 interface UserState {
   isLoading: boolean;
@@ -29,7 +30,7 @@ export const registerUser = createAsyncThunk(
       if (!isUser(data)) throw data;
       return data;
     } catch (error: any) {
-      console.log('error reducer', error);
+      //console.log('error reducer', error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -43,7 +44,7 @@ export const loginUser = createAsyncThunk(
       if (!isUser(data)) throw data;
       return data;
     } catch (error: any) {
-      console.log('error reducer', error);
+      //console.log('error reducer', error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -65,7 +66,7 @@ export const updateProfile = createAsyncThunk(
         thunkAPI.dispatch(logoutUser());
         return thunkAPI.rejectWithValue('Unauthorized! Login out');
       }
-      return thunkAPI.rejectWithValue(data.msg);
+      return checkForUnauthorizedResponse(data.msg, thunkAPI);
     }
   }
 );
@@ -99,7 +100,7 @@ const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, { payload }) => {
         const error = payload as string;
         state.isLoading = false;
-        console.log('error reducer registerUser', error);
+        //console.log('error reducer registerUser', error);
         toast.error(error);
       })
       .addCase(loginUser.pending, (state, action) => {
@@ -115,7 +116,7 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, { payload }) => {
         const error = payload as string;
         state.isLoading = false;
-        console.log('error reducer loginUser', error);
+        //console.log('error reducer loginUser', error);
         toast.error(error);
       })
       .addCase(updateProfile.pending, (state, action) => {
@@ -131,7 +132,7 @@ const userSlice = createSlice({
       .addCase(updateProfile.rejected, (state, { payload }) => {
         const error = payload as string;
         state.isLoading = false;
-        console.log('error reducer updateProfile', error);
+        //console.log('error reducer updateProfile', error);
         toast.error(error);
       });
   },

@@ -10,6 +10,12 @@ import SearchContainer from './SearchContainer.component';
 import JobsContainer from './JobsContainer.component';
 import Job from './Job.component';
 import Loading from './Loading.component';
+import StatsContainer from './StatsContainer.component';
+import ChartsContainer from './ChartsContainer.component';
+import StatItem from './StatItem.component';
+import BarChart from './BarChart.component';
+import AreaChart from './AreaChart.component';
+import PageBtnContainer from './PageBtnContainer.component';
 
 export {
   Logo,
@@ -25,6 +31,12 @@ export {
   JobsContainer,
   Job,
   Loading,
+  ChartsContainer,
+  StatsContainer,
+  StatItem,
+  BarChart,
+  AreaChart,
+  PageBtnContainer,
 };
 
 export type { FormRowProps, FormRowSelectProps };

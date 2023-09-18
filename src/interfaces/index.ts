@@ -3,9 +3,12 @@ import {
   JobType,
   JobStatus,
   Job,
+  JobFilter,
   JobOptions,
   JobAPI,
   JobPagination,
+  Stats,
+  SearchParams,
 } from './Job.interface';
 
 export type {
@@ -18,4 +21,7 @@ export type {
   JobAPI,
   JobOptions,
   JobPagination,
+  Stats,
+  JobFilter,
+  SearchParams,
 };

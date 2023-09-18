@@ -13,6 +13,7 @@ interface Props {
 }
 
 const Form = ({ type, items }: Props): JSX.Element => {
+  //console.log('Form items', items);
   return (
     <>
       {items.map((item) => {

@@ -1,8 +1,81 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { Form, RowType } from '.';
+import { clearValues, handleFilter } from '../redux/job/job.slice';
+import { JobFilter } from '../interfaces';
+
 const SearchContainer = () => {
-  return <Wrapper>SearchContainer</Wrapper>;
+  const { pagination, isLoading, statusOptions, jobTypeOptions } =
+    useAppSelector((state) => state.job);
+  const dispatch = useAppDispatch();
+
+  const handleSearch = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    const key = name as keyof JobFilter;
+    dispatch(handleFilter({ name: key, value }));
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(clearValues());
+  };
+
+  const textItems = [
+    {
+      type: 'text',
+      name: 'search',
+      labelText: 'search',
+      value: pagination.search,
+      handleChange: handleSearch,
+    },
+  ];
+
+  const selectItems = [
+    {
+      name: 'searchStatus',
+      value: pagination.searchStatus,
+      list: ['all', ...(statusOptions || [])],
+      labelText: 'status',
+      handleChange: handleSearch,
+    },
+    {
+      name: 'searchType',
+      value: pagination.searchType,
+      list: ['all', ...(jobTypeOptions || [])],
+      labelText: 'type',
+      handleChange: handleSearch,
+    },
+    {
+      name: 'sort',
+      value: pagination.sort,
+      list: pagination.sortOptions || [],
+      labelText: 'sort',
+      handleChange: handleSearch,
+    },
+  ];
+
+  return (
+    <Wrapper>
+      <form className="form">
+        <h4>search form</h4>
+        <div className="form-center">
+          <Form type={RowType.INPUT} items={textItems} />
+          <Form type={RowType.SELECT} items={selectItems} />
+          <button
+            className="btn btn-block btn-danger"
+            disabled={isLoading}
+            onClick={handleSubmit}
+          >
+            clear filters
+          </button>
+        </div>
+      </form>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`

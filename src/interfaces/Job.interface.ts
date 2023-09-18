@@ -27,4 +27,39 @@ interface JobPagination {
   numOfPages: number;
 }
 
-export type { JobType, JobStatus, Job, JobOptions, JobPagination, JobAPI };
+interface JobFilter {
+  search: string;
+  searchStatus: string;
+  searchType: string;
+  sort: string;
+  sortOptions: string[];
+}
+
+interface Stats {
+  defaultStats: {
+    pending: number;
+    interview: number;
+    declined: number;
+  };
+  monthlyApplications: { date: string; count: number }[];
+}
+
+interface SearchParams {
+  page: number;
+  search: string;
+  searchStatus: string;
+  searchType: string;
+  sort: string;
+}
+
+export type {
+  JobType,
+  JobStatus,
+  Job,
+  JobOptions,
+  Stats,
+  JobPagination,
+  JobAPI,
+  JobFilter,
+  SearchParams,
+};
